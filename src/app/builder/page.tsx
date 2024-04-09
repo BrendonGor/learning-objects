@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import "./styles.css";
 import * as React from "react";
@@ -9,14 +9,8 @@ import { AddIcon } from "@/components/Icons/AddIcon";
 import { useLearningObjects } from "@/components/builder/LearningObjectsContext";
 
 export default function App() {
-  const { 
-    tabs, 
-    selectedTab, 
-    setTabs, 
-    setSelectedTab,
-    add, 
-    remove 
-  } = useLearningObjects();
+  const { tabs, selectedTab, setTabs, setSelectedTab, add, remove } =
+    useLearningObjects();
 
   return (
     <div className="window">
@@ -29,36 +23,54 @@ export default function App() {
           values={tabs}
         >
           <AnimatePresence initial={false}>
-            {  // map each item in the list to a Tab component. key, item standard. isSelected tells tab if selected (effects styling).
-            tabs.map((item) => (
-              <Tab
-                key={item.label}
-                item={item}
-                isSelected={selectedTab === item}
-                onClick={() => setSelectedTab(item)}
-                onRemove={() => remove(item)}
-              />
-            ))}
+            {
+              // map each item in the list to a Tab component. key, item standard. isSelected tells tab if selected (effects styling).
+              tabs.map((item) => (
+                <Tab
+                  key={item.label}
+                  item={item}
+                  isSelected={selectedTab === item}
+                  onClick={() => {
+                    setSelectedTab(item);
+                    document
+                      .getElementById(`section-${item.label}`) // may return null
+                      ?.scrollIntoView({
+                        behavior: "smooth", // Smooth scroll
+                      });
+                  }}
+                  onRemove={() => remove(item)}
+                />
+              ))
+            }
           </AnimatePresence>
         </Reorder.Group>
 
         <motion.button
           className="add-item"
           onClick={add}
-        // disabled={tabs.length === allIngredients.length}
+          // disabled={tabs.length === allIngredients.length}
           whileTap={{ scale: 0.9 }}
         >
           <AddIcon />
         </motion.button>
       </nav>
       <main>
-        
+        {tabs.map((item) => (
+          <div
+            id={`section-${item.label}`} // Unique ID corresponding to the tab
+            key={item.label}
+            className="content-section"
+          >
+            {item.label}
+          </div>
+        ))}
       </main>
     </div>
   );
 }
 
-{/* <AnimatePresence mode="wait">
+{
+  /* <AnimatePresence mode="wait">
           <motion.div
             key={selectedTab ? selectedTab.label : "empty"}
             animate={{ opacity: 1, y: 0 }}
@@ -68,4 +80,5 @@ export default function App() {
           >
             {selectedTab ? selectedTab.icon : "😋"}
           </motion.div>
-        </AnimatePresence> */}
+        </AnimatePresence> */
+}
