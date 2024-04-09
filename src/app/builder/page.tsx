@@ -13,7 +13,7 @@ export default function App() {
     useLearningObjects();
 
   return (
-    <div className="window">
+    <div>
       <nav>
         <Reorder.Group
           as="ul"
@@ -54,17 +54,22 @@ export default function App() {
           <AddIcon />
         </motion.button>
       </nav>
-      <main>
-        {tabs.map((item) => (
-          <div
-            id={`section-${item.label}`} // Unique ID corresponding to the tab
-            key={item.label}
-            className="content-section"
-          >
-            {item.label}
-          </div>
-        ))}
-      </main>
+      <div className="window">
+        <main>
+          {tabs.map((item) => (
+            <div
+              id={`section-${item.label}`} // Unique ID corresponding to the tab
+              key={item.label}
+              className="content-section"
+            >
+              {Array.from({ length: 3 }).map((_, j) => (
+                <p key={j}>{item.label}</p>
+              ))}
+              <br></br>
+            </div>
+          ))}
+        </main>
+      </div>
     </div>
   );
 }

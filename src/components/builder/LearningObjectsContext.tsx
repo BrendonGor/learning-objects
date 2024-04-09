@@ -1,9 +1,15 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
-import { Label } from '@/components/builder/learning-objects/interfaces';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { Label } from "@/components/builder/learning-objects/interfaces";
 import { removeItem, closestItem } from "@/lib-utils/array-utils";
-
 
 interface LearningObjectsContextType {
   tabs: Label[];
@@ -14,11 +20,17 @@ interface LearningObjectsContextType {
   remove: (item: Label) => void;
 }
 
-const LearningObjectsContext = createContext<LearningObjectsContextType | undefined>(undefined);
+const LearningObjectsContext = createContext<
+  LearningObjectsContextType | undefined
+>(undefined);
 
-export const LearningObjectsProvider = ({ children }: { children: ReactNode }) => {
+export const LearningObjectsProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   // initial list has rich text box (generally for title)
-  const [tabs, setTabs] = useState([{ icon: "🍅", label: "Textbox" }]); 
+  const [tabs, setTabs] = useState([{ icon: "🍅", label: "Textbox" }]);
   const [selectedTab, setSelectedTab] = useState(tabs[0]); // use item rather than index because don't have to deal with index changes
 
   const remove = (item: Label) => {
@@ -31,7 +43,10 @@ export const LearningObjectsProvider = ({ children }: { children: ReactNode }) =
   };
 
   const add = () => {
-    const nextItem = { icon: "🍅", label: "Textbox" };  // TODO: add learning object pick screen
+    const nextItem = {
+      icon: "🍅",
+      label: "Textbox" + Math.floor(Math.random() * 10000), // need unique label as that will be used as key
+    }; // TODO: add learning object pick screen
     // add item to state list and update state
     if (nextItem) {
       setTabs([...tabs, nextItem]);
@@ -39,56 +54,32 @@ export const LearningObjectsProvider = ({ children }: { children: ReactNode }) =
     }
   };
 
-  const value = { 
-    tabs, 
-    selectedTab, 
+  const value = {
+    tabs,
+    selectedTab,
     setTabs, // Exposing setTabs
     setSelectedTab, // Exposing setSelectedTab
-    add, 
-    remove 
+    add,
+    remove,
   };
 
-  return <LearningObjectsContext.Provider value={value}>{children}</LearningObjectsContext.Provider>;
+  return (
+    <LearningObjectsContext.Provider value={value}>
+      {children}
+    </LearningObjectsContext.Provider>
+  );
 };
 
 // hook
 export const useLearningObjects = (): LearningObjectsContextType => {
   const context = useContext(LearningObjectsContext);
   if (!context) {
-    throw new Error('useLearningObjects must be used within a LearningObjectsProvider');
+    throw new Error(
+      "useLearningObjects must be used within a LearningObjectsProvider"
+    );
   }
   return context;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // using useReducer to manage array state example
 
