@@ -15,24 +15,35 @@ body {
   /* width: 480px;
   height: 360px; */
   /* height: 100vh; */
+  padding: 5px;
   border-radius: 10px;
   background: white;
   box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
     0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075),
     0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+
+    margin-top: 50px; /* Adjust based on the height of your nav to prevent content from being hidden behind it */
+    height: calc(100vh - 50px); /* Adjust the height calculation based on the actual nav height */
+    /* overflow-y: auto; Enables scrolling for the content within */
 }
 
 /* Controls the nav bar with the tabs and + button. Need display mode for '+' to show.  */
 nav {
   background: #aff4b5;
   padding: 5px 5px 0;
-  border-radius: 10px;
+  border-radius: 20px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom: 1px solid #eeeeee;
   height: 44px;
   display: grid;
   grid-template-columns: 1fr 35px;
+
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* box-sizing: border-box; */
   /* max-width: 480px; */
   /* max-width: 100%; */
   /* overflow: hidden; */

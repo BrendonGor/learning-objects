@@ -8,6 +8,10 @@ import { Tab } from "@/components/builder/framer-tabs/Tab";
 import { AddIcon } from "@/components/Icons/AddIcon";
 import { useLearningObjects } from "@/components/builder/LearningObjectsContext";
 
+import { McProvider } from "@/components/builder/learning-objects/McContext";
+import { Mc } from "@/components/builder/learning-objects/objects/Mc";
+import { McForm } from "@/components/builder/learning-objects/forms/McForm";
+
 export default function App() {
   const { tabs, selectedTab, setTabs, setSelectedTab, add, remove } =
     useLearningObjects();
@@ -62,9 +66,14 @@ export default function App() {
               key={item.label}
               className="content-section"
             >
-              {Array.from({ length: 3 }).map((_, j) => (
+              {/* {Array.from({ length: 3 }).map((_, j) => (
                 <p key={j}>{item.label}</p>
-              ))}
+              ))} */}
+              {/* <McProvider>
+                <McForm />
+                <br></br>
+                <Mc />
+              </McProvider> */}
               <br></br>
             </div>
           ))}
