@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMcContext } from "@/components/builder/learning-objects/contexts/McContext";
 
 export const Mc: React.FC = () => {
-  const { textFields } = useMcContext();
+  const { textFields, question } = useMcContext();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [result, setResult] = useState<string | null>(null);
 
@@ -33,25 +33,28 @@ export const Mc: React.FC = () => {
   return (
     <div>
       {result === null ? (
-        <form onSubmit={handleSubmit}>
-          {textFields.map((field, index) => (
-            <label
-              key={`${field.value.slice(0, 5)}${index}${field.explanation.slice(
-                0,
-                5
-              )}`}
-            >
-              <input
-                type="radio"
-                name="mcOption"
-                checked={selectedOption === index}
-                onChange={() => handleOptionChange(index)}
-              />
-              {field.value}
-            </label>
-          ))}
-          <button type="submit">Submit</button>
-        </form>
+        <div>
+          <h3>{question}</h3>
+          <form onSubmit={handleSubmit}>
+            {textFields.map((field, index) => (
+              <label
+                key={`${field.value.slice(
+                  0,
+                  5
+                )}${index}${field.explanation.slice(0, 5)}`}
+              >
+                <input
+                  type="radio"
+                  name="mcOption"
+                  checked={selectedOption === index}
+                  onChange={() => handleOptionChange(index)}
+                />
+                {field.value}
+              </label>
+            ))}
+            <button type="submit">Submit</button>
+          </form>
+        </div>
       ) : (
         <div>
           <p>{result}</p>

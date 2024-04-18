@@ -11,12 +11,15 @@ interface McContextType {
   textFields: TextField[];
   addTextField: () => void;
   updateTextField: (index: number, field: Partial<TextField>) => void;
+  question: string;
+  setQuestion: (question: string) => void;
   // Define the structure for your MC question state here, including methods to update it and check answers
 }
 
 const McContext = createContext<McContextType | undefined>(undefined);
 
 export const McProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [question, setQuestion] = useState<string>("");
   const [textFields, setTextFields] = useState<TextField[]>([
     { value: "", explanation: "", correct: false },
   ]);
@@ -37,7 +40,15 @@ export const McProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   // Implement logic for MC question state management here
 
   return (
-    <McContext.Provider value={{ textFields, addTextField, updateTextField }}>
+    <McContext.Provider
+      value={{
+        textFields,
+        addTextField,
+        updateTextField,
+        question,
+        setQuestion,
+      }}
+    >
       {children}
     </McContext.Provider>
   );

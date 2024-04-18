@@ -4,7 +4,8 @@ import React from "react";
 import { useMcContext } from "@/components/builder/learning-objects/contexts/McContext";
 
 export const McForm: React.FC = () => {
-  const { textFields, addTextField, updateTextField } = useMcContext();
+  const { textFields, addTextField, updateTextField, question, setQuestion } =
+    useMcContext();
 
   const handleFieldChange = (
     index: number,
@@ -16,6 +17,12 @@ export const McForm: React.FC = () => {
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
+        <input
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Question"
+        />
+
         {textFields.map((field, index) => (
           <div key="McForm{index}">
             <input
