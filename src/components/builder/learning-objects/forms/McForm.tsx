@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useMcContext } from "@/components/builder/learning-objects/McContext";
+import { useMcContext } from "@/components/builder/learning-objects/contexts/McContext";
 
 export const McForm: React.FC = () => {
   const { textFields, addTextField, updateTextField } = useMcContext();

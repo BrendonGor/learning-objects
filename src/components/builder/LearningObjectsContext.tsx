@@ -42,10 +42,10 @@ export const LearningObjectsProvider = ({
     setTabs(removeItem(tabs, item));
   };
 
-  const add = () => {
+  const add = (label: string) => {
     const nextItem = {
       icon: "🍅",
-      label: "Textbox" + Math.floor(Math.random() * 10000), // need unique label as that will be used as key
+      label: `${label}${Math.floor(Math.random() * 10000)}`, // need unique label as that will be used as key
     }; // TODO: add learning object pick screen
     // add item to state list and update state
     if (nextItem) {

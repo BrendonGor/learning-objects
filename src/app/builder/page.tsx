@@ -8,13 +8,18 @@ import { Tab } from "@/components/builder/framer-tabs/Tab";
 import { AddIcon } from "@/components/Icons/AddIcon";
 import { useLearningObjects } from "@/components/builder/LearningObjectsContext";
 
-import { McProvider } from "@/components/builder/learning-objects/McContext";
+import { McProvider } from "@/components/builder/learning-objects/contexts/McContext";
 import { Mc } from "@/components/builder/learning-objects/objects/Mc";
 import { McForm } from "@/components/builder/learning-objects/forms/McForm";
+import learningObjects from "@/components/builder/learning-objects/LearningObjects";
+import LearningObjectModal from "@/app/builder/components/LearningObjectModal";
 
 export default function App() {
   const { tabs, selectedTab, setTabs, setSelectedTab, add, remove } =
     useLearningObjects();
+  const [showModal, setShowModal] = useState(false);
+  // State to control visibility, true shows McForm, false shows Mc
+  const [showForm, setShowForm] = useState(true);
 
   return (
     <div>
@@ -48,17 +53,37 @@ export default function App() {
             }
           </AnimatePresence>
         </Reorder.Group>
-
         <motion.button
           className="add-item"
-          onClick={add}
+          onClick={() => setShowModal(true)}
           // disabled={tabs.length === allIngredients.length}
           whileTap={{ scale: 0.9 }}
         >
           <AddIcon />
         </motion.button>
       </nav>
+      {showModal && (
+        <LearningObjectModal
+          onChoose={(label) => {
+            add(label);
+            setShowModal(false);
+          }}
+          onClose={() => setShowModal(false)}
+          learningObjects={learningObjects}
+        />
+      )}
       <div className="window">
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
+            style={{
+              padding: "5px 10px", // Added for better button sizing
+            }}
+            onClick={() => setShowForm(!showForm)}
+          >
+            {showForm ? "Render" : "Modify"}
+          </button>
+        </div>
+
         <main>
           {tabs.map((item) => (
             <div
@@ -69,11 +94,12 @@ export default function App() {
               {/* {Array.from({ length: 3 }).map((_, j) => (
                 <p key={j}>{item.label}</p>
               ))} */}
-              {/* <McProvider>
-                <McForm />
+              <McProvider>
+                {/* <McForm />
                 <br></br>
-                <Mc />
-              </McProvider> */}
+                <Mc /> */}
+                {showForm ? <McForm /> : <Mc />}
+              </McProvider>
               <br></br>
             </div>
           ))}

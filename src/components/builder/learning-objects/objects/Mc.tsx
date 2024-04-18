@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMcContext } from "@/components/builder/learning-objects/McContext";
+import { useMcContext } from "@/components/builder/learning-objects/contexts/McContext";
 
 export const Mc: React.FC = () => {
   const { textFields } = useMcContext();
