@@ -11,15 +11,16 @@ import React, {
 import { Label } from "@/components/builder/learning-objects/interfaces";
 import { removeItem, closestItem } from "@/lib-utils/array-utils";
 
+// type for the state of the context
 interface LearningObjectsContextType {
   tabs: Label[];
   selectedTab: Label;
   setTabs: Dispatch<SetStateAction<Label[]>>; // Added setter for tabs
   setSelectedTab: Dispatch<SetStateAction<Label>>; // Added setter for selectedTab
-  add: () => void;
+  add: (label: Label) => void;
   remove: (item: Label) => void;
 }
-
+// create context
 const LearningObjectsContext = createContext<
   LearningObjectsContextType | undefined
 >(undefined);
@@ -30,7 +31,7 @@ export const LearningObjectsProvider = ({
   children: ReactNode;
 }) => {
   // initial list has rich text box (generally for title)
-  const [tabs, setTabs] = useState([{ icon: "🍅", label: "Textbox" }]);
+  const [tabs, setTabs] = useState<Label[]>([]);
   const [selectedTab, setSelectedTab] = useState(tabs[0]); // use item rather than index because don't have to deal with index changes
 
   const remove = (item: Label) => {
@@ -42,19 +43,14 @@ export const LearningObjectsProvider = ({
     setTabs(removeItem(tabs, item));
   };
 
-  const add = (label: string) => {
-    const nextItem = {
-      icon: "🍅",
-      label: `${label}${Math.floor(Math.random() * 10000)}`, // need unique label as that will be used as key
-    }; // TODO: add learning object pick screen
+  const add = (label: Label) => {
     // add item to state list and update state
-    if (nextItem) {
-      setTabs([...tabs, nextItem]);
-      setSelectedTab(nextItem);
-    }
+    setTabs([...tabs, label]);
+    setSelectedTab(label);
   };
 
-  const value = {
+  // state and methods to be exposed to children
+  const value: LearningObjectsContextType = {
     tabs,
     selectedTab,
     setTabs, // Exposing setTabs

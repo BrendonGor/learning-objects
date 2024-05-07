@@ -1,5 +1,6 @@
 export interface Label {
     icon: string;
-    label: string;
+    learningObjectType: string;
+    key: string;
 }
   
