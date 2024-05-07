@@ -2,14 +2,20 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useEditorContext } from "@/components/builder/learning-objects/contexts/EditorContext";
 
-const Tiptap = () => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "<p>Hello World! 🌎️</p>",
-  });
+export const Editor = () => {
+  const { editor } = useEditorContext();
+  editor?.setEditable(false); // Disable editing
+  if (!editor) {
+    return <p>Loading editor...</p>;
+  }
 
   return <EditorContent editor={editor} />;
 };
 
-export default Tiptap;
+// export const Editor: React.FC = () => {
+//   const { editor } = useEditorContext();
+
+//   return <div>{editor?.getHTML()}</div>; // This method converts the document to HTML
+// };
